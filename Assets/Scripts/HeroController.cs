@@ -8,12 +8,17 @@ public class HeroController : MonoBehaviour
 {
     private InputControls inputActions;
     [SerializeField] MoveComponent moveComponent;
+    [SerializeField] AttackComponent attackComponent;
+    [SerializeField] GameObject selectHint;
+ 
+    private Targettable selected;
 
     private void Awake()
     {
         inputActions = new InputControls();
         inputActions.Input.Enable();
     }
+
 
 
     private void Update()
@@ -23,15 +28,30 @@ public class HeroController : MonoBehaviour
 
         moveComponent.Move(moveDir);
         moveComponent.RotateTo(rotateDir);
-
-        var enemy =  EntityManager.Instance.GetEnemysInRadius(transform.position, 5f);
-
-
-        Enemy[] enemiesInRange =  enemy.Where(item => Vector3.Angle(moveComponent.GetCurrentRotateDirection(), item.transform.position - transform.position) < 35f).ToArray();
-
-        foreach (var item in enemiesInRange)
+        selected =  EnemyInDirection();
+        if (selected != null)
         {
-            
+            selected.Select(selectHint);
+            if (inputActions.Input.Action.IsPressed())
+            {
+                attackComponent.Attack(selected);
+            }
+           
+
         }
+
+    }
+
+    private Targettable EnemyInDirection()
+    {
+        var enemies = EntityManager.Instance.GetEnemysInRadius(transform.position, 5f);
+
+
+        return enemies
+         .Where(item => Vector3.Angle(moveComponent.GetCurrentRotateDirection(), item.transform.position - transform.position) < 35f)
+         .OrderBy(item => Vector3.Angle(moveComponent.GetCurrentRotateDirection(), item.transform.position - transform.position))
+         .FirstOrDefault();
+
+
     }
 }

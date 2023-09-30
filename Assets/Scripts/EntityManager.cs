@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
@@ -9,7 +10,6 @@ public class EntityManager : MonoBehaviour
     private List<Targettable> EnemyList = new List<Targettable>();
     private List<Targettable> TowerList = new List<Targettable>();
     private List<Targettable> HeroList = new List<Targettable>();
-
 
     private void Awake()
     {
@@ -53,17 +53,19 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public Targettable[] GetEnemysInRadius(Vector3 center, float radius)
+    public Targettable[] GetTargetsysInRadius(Vector3 center, float radius)
     {
-        List<Targettable> enemies = new List<Targettable>();
-        foreach (Targettable enemy in EnemyList)
+        List<Targettable> targettablesInRadius = new List<Targettable>();
+        List<Targettable> targettables = EnemyList;
+        targettables.AddRange(TowerList);
+        foreach (Targettable enemy in targettables)
         {
             if (Vector3.Distance(enemy.transform.position, center)<=radius)
             {
-                enemies.Add(enemy) ;
+                targettablesInRadius.Add(enemy) ;
             }
         }
-        return enemies.ToArray();
+        return targettablesInRadius.ToArray();
     }
 }
 

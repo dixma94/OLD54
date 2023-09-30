@@ -23,7 +23,9 @@ public class Targettable : MonoBehaviour
 
     public void Select(GameObject gameObject)
     {
+        gameObject.SetActive(true);
         gameObject.transform.position = point.transform.position;
+        gameObject.transform.parent = point.transform;
     }
 
 

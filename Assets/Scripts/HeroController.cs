@@ -31,6 +31,7 @@ public class HeroController : MonoBehaviour
         selected =  EnemyInDirection();
         if (selected != null)
         {
+            
             selected.Select(selectHint);
             if (inputActions.Input.Action.IsPressed())
             {
@@ -39,12 +40,16 @@ public class HeroController : MonoBehaviour
            
 
         }
+        else
+        {
+            selectHint.SetActive(false);
+        }
 
     }
 
     private Targettable EnemyInDirection()
     {
-        var enemies = EntityManager.Instance.GetEnemysInRadius(transform.position, 5f);
+        var enemies = EntityManager.Instance.GetTargetsysInRadius(transform.position, 5f);
 
 
         return enemies

@@ -8,6 +8,8 @@ public class AttackComponent : MonoBehaviour
     [SerializeField] private float attackCooldown;
     public bool CanAttack { get; private set; }
 
+    public Projectile projectilePrefab;
+
     private void Start()
     {
         CanAttack = true;
@@ -24,7 +26,15 @@ public class AttackComponent : MonoBehaviour
     private IEnumerator AttackCoroutine(Targettable enemy)
     {
         CanAttack = false;
-        enemy.TakeDamage(damage);
+        if(projectilePrefab != null)
+        {
+            var projectile = Instantiate<Projectile>(projectilePrefab, transform.position, transform.rotation, null);
+            projectile.FlyToTarget(enemy.transform, () => { if (enemy != null) { enemy.TakeDamage(damage); } });
+        }
+        else
+        {
+            enemy.TakeDamage(damage);
+        }
         yield return new WaitForSeconds(attackCooldown);
         CanAttack = true;
     }

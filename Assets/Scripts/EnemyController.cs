@@ -79,7 +79,7 @@ public class EnemyController : MonoBehaviour
             else
             {
                 SetPointToMove(Player.transform.position);
-                attackComponent.Attack(Player);
+                AttackTarget(Player);
             }
             
             

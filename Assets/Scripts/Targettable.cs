@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Targettable : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class Targettable : MonoBehaviour
     public EntityType targetType;
 
     [SerializeField] GameObject point;
-    [SerializeField] HealthComponent healthComponent;
     [SerializeField] InteractComponent interactComponent;
+    public HealthComponent healthComponent;
+    public NavMeshAgent agent;
 
     public float deathTime = 1f;
 
@@ -45,6 +47,15 @@ public class Targettable : MonoBehaviour
         }
     }
 
+    public void FrezzeDamage(float damage)
+    {
+        agent.speed = agent.speed * 0.5f;
+        healthComponent.currentHealth -= damage;
+        if (healthComponent.currentHealth <= 0)
+        {
+            DestroyTarget();
+        }
+    }
 
     public void TakeDamage(float damage)
     {

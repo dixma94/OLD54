@@ -51,7 +51,8 @@ public class HeroController : MonoBehaviour
             
             if (inputActions.Input.Action.IsPressed())
             {
-                attackComponent.Attack(selectedNow);
+
+                attackComponent.Attack(new Targettable[] { selectedNow });
             }
             if (inputActions.Input.Action2.IsPressed())
             {

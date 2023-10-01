@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AttackComponent : MonoBehaviour
 {
     public float damage;
-    [SerializeField] private float attackCooldown;
-    public bool CanAttack { get; private set; }
+    [SerializeField] protected float attackCooldown;
+    public bool CanAttack { get; protected set; }
 
     public Projectile projectilePrefab;
 
@@ -15,7 +16,7 @@ public class AttackComponent : MonoBehaviour
         CanAttack = true;
     }
 
-    public void Attack(Targettable enemy)
+    public void Attack(Targettable[] enemy)
     {
         if (CanAttack)
         {
@@ -23,17 +24,12 @@ public class AttackComponent : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackCoroutine(Targettable enemy)
+    public virtual IEnumerator AttackCoroutine(Targettable[] enemy)
     {
         CanAttack = false;
-        if(projectilePrefab != null)
+        foreach (var enemyItem in enemy)
         {
-            var projectile = Instantiate<Projectile>(projectilePrefab, transform.position, transform.rotation, null);
-            projectile.FlyToTarget(enemy.transform, () => { if (enemy != null) { enemy.TakeDamage(damage); } });
-        }
-        else
-        {
-            enemy.TakeDamage(damage);
+            enemyItem.TakeDamage(damage);
         }
         yield return new WaitForSeconds(attackCooldown);
         CanAttack = true;

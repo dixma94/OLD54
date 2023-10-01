@@ -7,21 +7,18 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] EnemyController EnemyPrefab;
     [SerializeField] GameObject pointToMove;
     [SerializeField] EnemyType enemyType;
-    public float SpawnDelay;
+    public float MaximumDelay;
+    public float MinimumDelay;   
+    public float DelayForStart;
 
     // Start is called before the first frame update
     void Start()
     {
-       StartCoroutine(SpawnEnemyCoroutine(enemyType));
+        StartCoroutine(Delay());
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void ChannelTypeEnemySpawn(EnemyType enemyType)
+    public void ChangeTypeEnemySpawn(EnemyType enemyType)
     {
         StopAllCoroutines();
         StartCoroutine(SpawnEnemyCoroutine(enemyType));
@@ -33,9 +30,16 @@ public class EnemySpawn : MonoBehaviour
         while (true)
         {
             CreateEnemy(enemyType);
-            yield return new WaitForSeconds(SpawnDelay);
+            float delay = Random.Range(MinimumDelay, MaximumDelay);
+            yield return new WaitForSeconds(delay);
         }
 
+    }
+    private IEnumerator Delay()
+    {        
+
+        yield return new WaitForSeconds(DelayForStart);       
+        StartCoroutine(SpawnEnemyCoroutine(enemyType));
     }
 
     private void CreateEnemy(EnemyType enemyType)

@@ -7,8 +7,8 @@ using UnityEngine;
 public class TowerController : MonoBehaviour
 {
     [SerializeField] private AttackComponent attackComponent;
+    [SerializeField] private TargetSelector targetSelector;
     public float AttackCoolDown = 2f;
-    private Targettable CurrentTarget;
 
     const float AttackRadius = 10f;
     public TowerVisual visual;
@@ -17,42 +17,16 @@ public class TowerController : MonoBehaviour
     {
         if (attackComponent.CanAttack)
         {
-            if (CurrentTarget == null)
+            Targettable[] targets =  targetSelector.GetTargetsInRange(transform.position, AttackRadius);
+            if (targets.Length > 0 )
             {
-                GetNearTarget();
-            }
-
-            if (CurrentTarget != null)
-            {
-                if (CanAttackTarget(CurrentTarget))
-                {
-                    attackComponent.Attack(CurrentTarget);
-                    visual.Attack();
-                }
-
+                visual.Attack();
+                attackComponent.Attack(targets);
             }
         }
 
 
     }
 
-
-    private bool CanAttackTarget(Targettable targettable)
-    {
-       return EntityManager.Instance.GetTargetsysInRadius(transform.position, AttackRadius).Contains(targettable);
-    }
-
-    private void GetNearTarget()
-    {
-
-        CurrentTarget = EntityManager.Instance.GetEnemiesInRadius(transform.position, AttackRadius)
-            .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
-            .FirstOrDefault();
-
-    }
-
-    private void CurrentTarget_TargetKilled(Targettable targettable)
-    {
-        CurrentTarget = null;
-    }
 }
+

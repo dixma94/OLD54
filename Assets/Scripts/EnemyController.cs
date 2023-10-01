@@ -20,7 +20,6 @@ public class EnemyController : MonoBehaviour
         {
             case EnemyType.First:
                 if(TryAttackTower()) return;
-                SetPointToMove(DefaultpointToMove);
                 break;
             case EnemyType.Second:
                 break;
@@ -39,6 +38,11 @@ public class EnemyController : MonoBehaviour
          .FirstOrDefault();
 
         if (tower != null)
+        {
+            SetPointToMove(tower.transform.position);
+
+        }
+        if (true)
         {
             attackComponent.Attack(tower);
             return true;

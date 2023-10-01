@@ -13,6 +13,7 @@ public class Targettable : MonoBehaviour
     [SerializeField] HealthComponent healthComponent;
     [SerializeField] InteractComponent interactComponent;
 
+    public float deathTime = 1f;
 
     private GameObject selector;
     // Start is called before the first frame update
@@ -59,6 +60,6 @@ public class Targettable : MonoBehaviour
     {
         EntityManager.Instance.UnRegisterEnemy(this);
         OnChangeHint?.Invoke(selector);
-        Destroy(gameObject);
+        Destroy(gameObject, deathTime);
     }
 }

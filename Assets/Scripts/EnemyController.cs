@@ -17,6 +17,9 @@ public class EnemyController : MonoBehaviour
     private Targettable Player;
     private bool IsOnColldown = false;
 
+    public EnemyVisuals visuals;
+    public HealthComponent health;
+
     // Update is called once per frame
     void Update()
     {
@@ -40,6 +43,15 @@ public class EnemyController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        visuals.Speed = agent.velocity.magnitude;
+
+        if(health.currentHealth <= 0)
+        {
+            visuals.Die();
+            StopAllCoroutines();
+            IsOnColldown = true;
         }
     }
 
@@ -107,11 +119,10 @@ public class EnemyController : MonoBehaviour
         {
             if (Vector3.Distance(transform.position,target.transform.position)<= RangeForAttack)
             {
+                visuals.Attack();
                 attackComponent.Attack(target);
             }
         }
-       
-
     }
 
     public void SetPointToMove(Vector3 point)

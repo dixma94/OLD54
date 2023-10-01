@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d65847a099a15a41a588c2c588c1981, type: 3}
+--- !u!95 &251012509831965074 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4085148128940559565, guid: 2d65847a099a15a41a588c2c588c1981, type: 3}
+  m_PrefabInstance: {fileID: 4308425423331272031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6983076609116371027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,10 +69,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3568122688088905003, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568122688088905003, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.93
+      objectReference: {fileID: 0}
     - target: {fileID: 7542664728641406253, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 4085148128940559565, guid: 2d65847a099a15a41a588c2c588c1981, type: 3}
+      objectReference: {fileID: 251012509831965074}
     - target: {fileID: 7939359141064298331, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: m_RootOrder
       value: 0

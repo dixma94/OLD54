@@ -53,6 +53,15 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action2"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c0165d5-960f-490c-bde4-b114f94ddd53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +207,17 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7887ca66-c7bf-4502-a215-a08402f04916"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -209,6 +229,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         m_Input_Move = m_Input.FindAction("Move", throwIfNotFound: true);
         m_Input_Rotate = m_Input.FindAction("Rotate", throwIfNotFound: true);
         m_Input_Action = m_Input.FindAction("Action", throwIfNotFound: true);
+        m_Input_Action2 = m_Input.FindAction("Action2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +292,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Input_Move;
     private readonly InputAction m_Input_Rotate;
     private readonly InputAction m_Input_Action;
+    private readonly InputAction m_Input_Action2;
     public struct InputActions
     {
         private @InputControls m_Wrapper;
@@ -278,6 +300,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Input_Move;
         public InputAction @Rotate => m_Wrapper.m_Input_Rotate;
         public InputAction @Action => m_Wrapper.m_Input_Action;
+        public InputAction @Action2 => m_Wrapper.m_Input_Action2;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -296,6 +319,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Action.started -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
+                @Action2.started -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
+                @Action2.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
+                @Action2.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -309,6 +335,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
+                @Action2.started += instance.OnAction2;
+                @Action2.performed += instance.OnAction2;
+                @Action2.canceled += instance.OnAction2;
             }
         }
     }
@@ -318,5 +347,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
+        void OnAction2(InputAction.CallbackContext context);
     }
 }

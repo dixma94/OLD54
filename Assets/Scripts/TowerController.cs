@@ -11,6 +11,7 @@ public class TowerController : MonoBehaviour
     private Targettable CurrentTarget;
 
     const float AttackRadius = 10f;
+    public TowerVisual visual;
 
     private void Update()
     {
@@ -26,6 +27,7 @@ public class TowerController : MonoBehaviour
                 if (CanAttackTarget(CurrentTarget))
                 {
                     attackComponent.Attack(CurrentTarget);
+                    visual.Attack();
                 }
 
             }
@@ -33,6 +35,7 @@ public class TowerController : MonoBehaviour
 
 
     }
+
 
     private bool CanAttackTarget(Targettable targettable)
     {
@@ -42,13 +45,13 @@ public class TowerController : MonoBehaviour
     private void GetNearTarget()
     {
 
-        CurrentTarget = EntityManager.Instance.GetTargetsysInRadius(transform.position, AttackRadius)
+        CurrentTarget = EntityManager.Instance.GetEnemiesInRadius(transform.position, AttackRadius)
             .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
             .FirstOrDefault();
-        CurrentTarget.TargetKilled += CurrentTarget_TargetKilled;
+
     }
 
-    private void CurrentTarget_TargetKilled()
+    private void CurrentTarget_TargetKilled(Targettable targettable)
     {
         CurrentTarget = null;
     }

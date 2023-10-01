@@ -18,6 +18,7 @@ public class EntityManager : MonoBehaviour
     private List<Targettable> TowerSlotList = new List<Targettable>();
     private List<Targettable> FactorySlotList = new List<Targettable>();
 
+    private Targettable hero;
     private void Awake()
     {
         Instance = this;
@@ -36,6 +37,7 @@ public class EntityManager : MonoBehaviour
                 TowerList.Add(target);
                 break;
             case EntityType.Hero:
+                hero = target;
                 break;
             case EntityType.Trees:
                 TreesList.Add(target);
@@ -67,6 +69,7 @@ public class EntityManager : MonoBehaviour
                 TowerList.Remove(target);
                 break;
             case EntityType.Hero:
+                hero = null;
                 break;
             case EntityType.Trees:
                 TreesList.Remove(target);
@@ -78,7 +81,7 @@ public class EntityManager : MonoBehaviour
                 TowerSlotList.Remove(target);
                 break;
             case EntityType.FactroySlot:
-                FactorySlotList.Remove(target);   
+                FactorySlotList.Remove(target);
                 break;
             default:
                 break;
@@ -97,9 +100,9 @@ public class EntityManager : MonoBehaviour
         targettables.AddRange(FactorySlotList);
         foreach (Targettable enemy in targettables)
         {
-            if (Vector3.Distance(enemy.transform.position, center)<=radius)
+            if (Vector3.Distance(enemy.transform.position, center) <= radius)
             {
-                targettablesInRadius.Add(enemy) ;
+                targettablesInRadius.Add(enemy);
             }
         }
         return targettablesInRadius.ToArray();
@@ -130,8 +133,22 @@ public class EntityManager : MonoBehaviour
         }
         return targettablesInRadius.ToArray();
     }
+    public Targettable GetHeroInRange(Vector3 center, float radius)
+    {
+        if (hero == null)
+        {
+            return null;
+        }
+        else
+        {
+            if (Vector3.Distance(hero.transform.position, center) <= radius)
+            {
+                return hero;
+            }
+            return null;
+        }
+    }
 }
-
 public enum EntityType
 {
     Enemy,

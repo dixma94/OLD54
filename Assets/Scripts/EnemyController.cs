@@ -6,12 +6,16 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private float AgroRadiusForTower = 15f;
+    private const float RangeForAttack = 3f;
+    private const float IdleCooldown = 1f;
+    [SerializeField] private float AgroRadius = 3f;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] AttackComponent attackComponent;
     public EnemyType enemyType;
     private Vector3 DefaultpointToMove;
-
+    private Targettable CurrentTower;
+    private Targettable Player;
+    private bool IsOnColldown = false;
 
     // Update is called once per frame
     void Update()
@@ -19,9 +23,18 @@ public class EnemyController : MonoBehaviour
         switch (enemyType)
         {
             case EnemyType.First:
-                if(TryAttackTower()) return;
+                if (!IsOnColldown) 
+                {
+                    StartCoroutine(CooldownCoroutine());
+                    FirstBehaviour();
+                }
                 break;
             case EnemyType.Second:
+                if (!IsOnColldown)
+                {
+                    StartCoroutine(CooldownCoroutine());
+                    SecondBehaviour();
+                }
                 break;
             case EnemyType.Third:
                 break;
@@ -30,24 +43,75 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private bool TryAttackTower()
+    private IEnumerator CooldownCoroutine()
     {
-        Targettable[] towers = EntityManager.Instance.GetTowersInRange(transform.position, AgroRadiusForTower);
-        Targettable tower = towers
-         .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
-         .FirstOrDefault();
+        IsOnColldown = true;
+        yield return new WaitForSeconds(IdleCooldown);
+        IsOnColldown = false;
+    }
 
-        if (tower != null)
+    private void SecondBehaviour()
+    {
+        if (Player == null)
         {
-            SetPointToMove(tower.transform.position);
+            SetPointToMove(DefaultpointToMove);
+            Player = FindPlayer();
+        }
+        else
+        {
+            if (Vector3.Distance(Player.transform.position, transform.position)>AgroRadius)
+            {
+                Player = null;
+                SetPointToMove(DefaultpointToMove);
+            }
+            else
+            {
+                SetPointToMove(Player.transform.position);
+                attackComponent.Attack(Player);
+            }
+            
+            
+        }
+    }
 
-        }
-        if (true)
+    private void FirstBehaviour()
+    {
+        if (CurrentTower == null)
         {
-            attackComponent.Attack(tower);
-            return true;
+            SetPointToMove(DefaultpointToMove);
+            CurrentTower = FindTower();
         }
-        return false;
+        else
+        {
+            SetPointToMove(CurrentTower.transform.position);
+            AttackTarget(CurrentTower);
+        }
+    }
+
+    private Targettable FindTower()
+    {
+        return EntityManager.Instance.GetTowersInRange(transform.position, AgroRadius)
+            .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
+         .FirstOrDefault(); 
+
+    }
+
+    private Targettable FindPlayer()
+    {
+        return EntityManager.Instance.GetHeroInRange(transform.position, AgroRadius);
+
+    }
+    private void AttackTarget(Targettable target)
+    {
+        if (attackComponent.CanAttack) 
+        {
+            if (Vector3.Distance(transform.position,target.transform.position)<= RangeForAttack)
+            {
+                attackComponent.Attack(target);
+            }
+        }
+       
+
     }
 
     public void SetPointToMove(Vector3 point)

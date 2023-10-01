@@ -8,7 +8,6 @@ public class MoveComponent : MonoBehaviour
     private const float FallSpeed = 100f;
     [SerializeField] private float Speed;
     [SerializeField] CharacterController characterController;
-    [SerializeField] GameObject VisualObject;
     [SerializeField] VisualController visualController;
 
     private Vector2 rotateDirection;

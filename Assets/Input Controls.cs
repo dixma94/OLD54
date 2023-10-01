@@ -44,6 +44,15 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""26e19584-8d14-4599-98c7-efda213fb10f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +132,72 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4f12369-2163-448e-bb25-9915c856359c"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""aa13c6a9-e741-4eae-ac45-28a7fe4af7b5"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a7379f62-96d8-4832-b63b-b2790cea411e"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""da0e9338-5a20-4b26-b7f5-9cd413a4c5c9"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5f7e0214-987c-4123-8501-8b1f9fb16311"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4c517201-ed27-47f6-9d97-a434dc485b31"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -133,6 +208,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         m_Input = asset.FindActionMap("Input", throwIfNotFound: true);
         m_Input_Move = m_Input.FindAction("Move", throwIfNotFound: true);
         m_Input_Rotate = m_Input.FindAction("Rotate", throwIfNotFound: true);
+        m_Input_Action = m_Input.FindAction("Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -194,12 +270,14 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     private IInputActions m_InputActionsCallbackInterface;
     private readonly InputAction m_Input_Move;
     private readonly InputAction m_Input_Rotate;
+    private readonly InputAction m_Input_Action;
     public struct InputActions
     {
         private @InputControls m_Wrapper;
         public InputActions(@InputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Input_Move;
         public InputAction @Rotate => m_Wrapper.m_Input_Rotate;
+        public InputAction @Action => m_Wrapper.m_Input_Action;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -215,6 +293,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Rotate.started -= m_Wrapper.m_InputActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnRotate;
+                @Action.started -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnAction;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -225,6 +306,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
             }
         }
     }
@@ -233,5 +317,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
 }

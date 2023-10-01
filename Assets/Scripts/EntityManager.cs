@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
     public static EntityManager Instance;
 
-    private List<Enemy> EnemyList = new List<Enemy>();
+    private List<Targettable> EnemyList = new List<Targettable>();
+    private List<Targettable> TowerList = new List<Targettable>();
+    private List<Targettable> HeroList = new List<Targettable>();
 
     private void Awake()
     {
@@ -14,32 +17,62 @@ public class EntityManager : MonoBehaviour
 
     }
 
-    public void RegisterEnemy(Enemy enemy)
+    public void RegisterEnemy(Targettable target)
     {
-        EnemyList.Add(enemy);
+        switch (target.TargetEntity)
+        {
+            case EntityType.Enemy:
+                EnemyList.Add(target);
+                break;
+            case EntityType.Tower:
+                TowerList.Add(target);
+                break;
+            case EntityType.Hero:
+                HeroList.Add(target);
+                break;
+            default:
+                break;
+        }
+        
     }
-    public void UnRegisterEnemy(Enemy enemy)
+    public void UnRegisterEnemy(Targettable target)
     {
-        EnemyList.Remove(enemy);
+        switch (target.TargetEntity)
+        {
+            case EntityType.Enemy:
+                EnemyList.Remove(target);
+                break;
+            case EntityType.Tower:
+                TowerList.Remove(target);
+                break;
+            case EntityType.Hero:
+                HeroList.Remove(target);
+                break;
+            default:
+                break;
+        }
     }
 
-    public Enemy[] GetEnemysInRadius(Vector3 center, float radius)
+    public Targettable[] GetTargetsysInRadius(Vector3 center, float radius)
     {
-        List<Enemy> enemies = new List<Enemy>();
-        foreach (Enemy enemy in EnemyList)
+        List<Targettable> targettablesInRadius = new List<Targettable>();
+        List<Targettable> targettables = EnemyList;
+        targettables.AddRange(TowerList);
+        foreach (Targettable enemy in targettables)
         {
             if (Vector3.Distance(enemy.transform.position, center)<=radius)
             {
-                enemies.Add(enemy) ;
+                targettablesInRadius.Add(enemy) ;
             }
         }
-        return enemies.ToArray();
+        return targettablesInRadius.ToArray();
     }
 }
 
 public enum EntityType
 {
     Enemy,
-    Tower
+    Tower,
+    Hero
 
 }

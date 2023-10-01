@@ -8,7 +8,7 @@ public class MoveComponent : MonoBehaviour
     private const float FallSpeed = 100f;
     [SerializeField] private float Speed;
     [SerializeField] CharacterController characterController;
-    [SerializeField] GameObject VisualObject;
+    [SerializeField] VisualController visualController;
 
     private Vector2 rotateDirection;
     private Vector2 moveDirection; 
@@ -24,6 +24,8 @@ public class MoveComponent : MonoBehaviour
         {
             characterController.Move(Vector3.down * FallSpeed * Time.deltaTime);
         }
+
+        visualController.Speed = vector.magnitude * Speed;
     }
 
     public void RotateTo(Vector2 rotateDir)
@@ -40,12 +42,13 @@ public class MoveComponent : MonoBehaviour
         Vector3 vector = new Vector3(rotateDirection.x, 0, rotateDirection.y);
         const float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, vector, Time.deltaTime * rotateSpeed);
+
+        visualController.FacingAngle = Vector3.SignedAngle(moveDirection, rotateDirection, Vector3.up);
+        visualController.FacingSide = Vector3.Cross(moveDirection, rotateDirection).z;
     }
 
     public Vector3 GetCurrentRotateDirection()
     {
         return transform.forward;
     }
-
-
 }

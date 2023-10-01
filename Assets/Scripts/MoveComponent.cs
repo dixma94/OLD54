@@ -30,6 +30,7 @@ public class MoveComponent : MonoBehaviour
 
     public void RotateTo(Vector2 rotateDir)
     {
+        Debug.Log(rotateDir);
         if (rotateDir == Vector2.zero)
         {
             rotateDirection = moveDirection;

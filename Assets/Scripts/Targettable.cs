@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class Targettable : MonoBehaviour
 {
-    public event Action TargetKilled;
-    public EntityType TargetEntity;
+
+    public event Action<GameObject> OnChangeHint;
+    public EntityType targetType;
+
     [SerializeField] GameObject point;
-    [SerializeField] HealthComponent health;
+    [SerializeField] HealthComponent healthComponent;
+    [SerializeField] InteractComponent interactComponent;
+
+
+    private GameObject selector;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,23 +27,38 @@ public class Targettable : MonoBehaviour
         
     }
 
-    public void Select(GameObject gameObject)
+    public void Select(GameObject Selector)
     {
-        gameObject.SetActive(true);
-        gameObject.transform.position = point.transform.position;
-        gameObject.transform.parent = point.transform;
+        Selector.SetActive(true);
+        Selector.transform.position = point.transform.position;
+        Selector.transform.parent = point.transform;
+        selector = Selector;
     }
 
+
+    public void Interact()
+    {
+        if (interactComponent != null)
+        {
+             interactComponent.Interact(this);
+        }
+    }
 
 
     public void TakeDamage(float damage)
     {
-        health.currentHealth -= damage;
-        if (health.currentHealth <= 0)
+
+        healthComponent.currentHealth -= damage;
+        if (healthComponent.currentHealth <= 0)
         {
-            EntityManager.Instance.UnRegisterEnemy(this);
-            TargetKilled?.Invoke();
-            Destroy(gameObject);
+            DestroyTarget();
         }
+    }
+
+    public void DestroyTarget()
+    {
+        EntityManager.Instance.UnRegisterEnemy(this);
+        OnChangeHint?.Invoke(selector);
+        Destroy(gameObject);
     }
 }

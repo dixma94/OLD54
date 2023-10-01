@@ -8,6 +8,11 @@ public class AttackComponent : MonoBehaviour
     [SerializeField] private float attackCooldown;
     public bool CanAttack { get; private set; }
 
+    private void Start()
+    {
+        CanAttack = true;
+    }
+
     public void Attack(Targettable enemy)
     {
         if (CanAttack)
@@ -20,7 +25,6 @@ public class AttackComponent : MonoBehaviour
     {
         CanAttack = false;
         enemy.TakeDamage(damage);
-        Debug.Log("attack");
         yield return new WaitForSeconds(attackCooldown);
         CanAttack = true;
     }

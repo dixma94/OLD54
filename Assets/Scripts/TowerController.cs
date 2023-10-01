@@ -34,6 +34,7 @@ public class TowerController : MonoBehaviour
 
     }
 
+
     private bool CanAttackTarget(Targettable targettable)
     {
        return EntityManager.Instance.GetTargetsysInRadius(transform.position, AttackRadius).Contains(targettable);
@@ -42,13 +43,13 @@ public class TowerController : MonoBehaviour
     private void GetNearTarget()
     {
 
-        CurrentTarget = EntityManager.Instance.GetTargetsysInRadius(transform.position, AttackRadius)
+        CurrentTarget = EntityManager.Instance.GetEnemiesInRadius(transform.position, AttackRadius)
             .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
             .FirstOrDefault();
-        CurrentTarget.TargetKilled += CurrentTarget_TargetKilled;
+
     }
 
-    private void CurrentTarget_TargetKilled()
+    private void CurrentTarget_TargetKilled(Targettable targettable)
     {
         CurrentTarget = null;
     }

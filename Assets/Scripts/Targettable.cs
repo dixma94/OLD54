@@ -71,6 +71,12 @@ public class Targettable : MonoBehaviour
     {
         EntityManager.Instance.UnRegisterEnemy(this);
         OnChangeHint?.Invoke(selector);
-        Destroy(gameObject, deathTime);
+        StartCoroutine(Death());
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(deathTime);
+        Destroy(gameObject);
     }
 }

@@ -120,7 +120,7 @@ public class EnemyController : MonoBehaviour
             if (Vector3.Distance(transform.position,target.transform.position)<= RangeForAttack)
             {
                 visuals.Attack();
-                attackComponent.Attack(target);
+                attackComponent.Attack(new Targettable[] {target});
             }
         }
     }

@@ -2,12 +2,12 @@
 using System.Linq;
 using UnityEngine;
 
-public class AttackTargetComponent : AttackComponent
+public class FrezzeAttackComponet : AttackComponent
 {
     public override IEnumerator AttackCoroutine(Targettable[] enemy)
     {
         CanAttack = false;
-        enemy.FirstOrDefault().TakeDamage(damage);
+        enemy.FirstOrDefault().FrezzeDamage(damage);
         yield return new WaitForSeconds(attackCooldown);
         CanAttack = true;
     }

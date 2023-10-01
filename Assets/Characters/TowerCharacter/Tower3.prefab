@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   attackCooldown: 4
+  projectilePrefab: {fileID: 299680445101227534, guid: 258ce84bb4e3ac944a90d47fa24f2f08, type: 3}
 --- !u!114 &8604444428418724028
 MonoBehaviour:
   m_ObjectHideFlags: 0

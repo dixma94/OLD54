@@ -62,6 +62,15 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e76dc00-0ef7-461b-9b28-fe96a75448bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -222,7 +231,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7887ca66-c7bf-4502-a215-a08402f04916"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -240,6 +249,28 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""action"": ""Action2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed605f39-507e-418e-b2ae-ee504bc11dcd"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c58df61-120a-4900-b289-31adb5b135ed"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -252,6 +283,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         m_Input_Rotate = m_Input.FindAction("Rotate", throwIfNotFound: true);
         m_Input_Action = m_Input.FindAction("Action", throwIfNotFound: true);
         m_Input_Action2 = m_Input.FindAction("Action2", throwIfNotFound: true);
+        m_Input_Restart = m_Input.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +347,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Input_Rotate;
     private readonly InputAction m_Input_Action;
     private readonly InputAction m_Input_Action2;
+    private readonly InputAction m_Input_Restart;
     public struct InputActions
     {
         private @InputControls m_Wrapper;
@@ -323,6 +356,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Input_Rotate;
         public InputAction @Action => m_Wrapper.m_Input_Action;
         public InputAction @Action2 => m_Wrapper.m_Input_Action2;
+        public InputAction @Restart => m_Wrapper.m_Input_Restart;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -344,6 +378,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Action2.started -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
                 @Action2.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
                 @Action2.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnAction2;
+                @Restart.started -= m_Wrapper.m_InputActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -360,6 +397,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Action2.started += instance.OnAction2;
                 @Action2.performed += instance.OnAction2;
                 @Action2.canceled += instance.OnAction2;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -370,5 +410,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnAction2(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

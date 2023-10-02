@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
     private Vector3 DefaultpointToMove;
     private Targettable CurrentTower;
     private Targettable Player;
+    private Targettable Factory;
+
     private bool IsOnColldown = false;
 
     public EnemyVisuals visuals;
@@ -25,21 +27,26 @@ public class EnemyController : MonoBehaviour
     {
         switch (enemyType)
         {
-            case EnemyType.First:
+            case EnemyType.AttackTower:
                 if (!IsOnColldown) 
                 {
                     StartCoroutine(CooldownCoroutine());
                     FirstBehaviour();
                 }
                 break;
-            case EnemyType.Second:
+            case EnemyType.AttaclPlayer:
                 if (!IsOnColldown)
                 {
                     StartCoroutine(CooldownCoroutine());
                     SecondBehaviour();
                 }
                 break;
-            case EnemyType.Third:
+            case EnemyType.AttackFactory:
+                if (!IsOnColldown)
+                {
+                    StartCoroutine(CooldownCoroutine());
+                    AttackFactoryBehavior();
+                }
                 break;
             default:
                 break;
@@ -63,16 +70,44 @@ public class EnemyController : MonoBehaviour
         IsOnColldown = false;
     }
 
+    private void AttackFactoryBehavior()
+    {
+        if (Factory == null)
+        {
+            SetPointToMove(DefaultpointToMove);
+            Factory = FindFactory();
+            CurrentTower = FindTower();
+            if (CurrentTower != null)
+            {           
+                enemyType = EnemyType.AttackTower;
+            }
+            Player = FindPlayer();
+            if (Player != null)
+            {
+                enemyType = EnemyType.AttaclPlayer;
+            }
+        }
+        else
+        {
+            SetPointToMove(Factory.transform.position);
+            AttackTarget(Factory);
+
+
+        }
+    }
+
     private void SecondBehaviour()
     {
         if (Player == null)
         {
             SetPointToMove(DefaultpointToMove);
+            enemyType = EnemyType.AttackFactory;
             Player = FindPlayer();
         }
         else
         {
-            if (Vector3.Distance(Player.transform.position, transform.position)>AgroRadius)
+            enemyType = EnemyType.AttaclPlayer;
+            if (Vector3.Distance(Player.transform.position, transform.position) > AgroRadius)
             {
                 Player = null;
                 SetPointToMove(DefaultpointToMove);
@@ -82,20 +117,21 @@ public class EnemyController : MonoBehaviour
                 SetPointToMove(Player.transform.position);
                 AttackTarget(Player);
             }
-            
-            
+
+
         }
     }
-
     private void FirstBehaviour()
     {
         if (CurrentTower == null)
         {
+            enemyType = EnemyType.AttackFactory;
             SetPointToMove(DefaultpointToMove);
             CurrentTower = FindTower();
         }
         else
         {
+            enemyType = EnemyType.AttackTower;
             SetPointToMove(CurrentTower.transform.position);
             AttackTarget(CurrentTower);
         }
@@ -112,6 +148,11 @@ public class EnemyController : MonoBehaviour
     private Targettable FindPlayer()
     {
         return EntityManager.Instance.GetTargetsInRadius(transform.position, AgroRadius,EntityType.Hero).FirstOrDefault();
+
+    }
+    private Targettable FindFactory()
+    {
+        return EntityManager.Instance.GetTargetsInRadius(transform.position, AgroRadius, EntityType.Factory).FirstOrDefault();
 
     }
     private void AttackTarget(Targettable target)
@@ -138,7 +179,7 @@ public class EnemyController : MonoBehaviour
 }
 public enum EnemyType
 {
-    First,
-    Second, 
-    Third
+    AttackTower,
+    AttaclPlayer, 
+    AttackFactory
 }

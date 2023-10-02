@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 938440902673581839, guid: 220fa1ebf1e209f4f8539bdff06841cb, type: 3}
+      propertyPath: m_Speed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 938440902673581839, guid: 220fa1ebf1e209f4f8539bdff06841cb, type: 3}
       propertyPath: m_Radius
       value: 1.53
       objectReference: {fileID: 0}

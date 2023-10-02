@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RisingWater : MonoBehaviour
 {
+    public event Action Water;
     public float targetWaterHeight = 0;
     public float riseWaterSpeed = 4;
     public WaterLevel[] waterLevels;
@@ -43,7 +45,10 @@ public class RisingWater : MonoBehaviour
             nextLevelTime -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-
+        if (waterLevel == 5)
+        {
+            Water?.Invoke();
+        }
         waterLevel++;
         ApplyWaterLevel(waterLevels[waterLevel]);
     }

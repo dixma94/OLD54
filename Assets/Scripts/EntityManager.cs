@@ -13,7 +13,6 @@ public class EntityManager : MonoBehaviour
 
     private Dictionary<EntityType, List<Targettable>> entries = new Dictionary<EntityType, List<Targettable>>();
 
-    private Targettable hero;
     private void Awake()
     {
         Instance = this;
@@ -57,21 +56,7 @@ public class EntityManager : MonoBehaviour
         return targettablesInRadius;
     }
 
-    public Targettable GetHeroInRange(Vector3 center, float radius)
-    {
-        if (hero == null)
-        {
-            return null;
-        }
-        else
-        {
-            if (Vector3.Distance(hero.transform.position, center) <= radius)
-            {
-                return hero;
-            }
-            return null;
-        }
-    }
+
 }
 public enum EntityType
 {
@@ -81,6 +66,7 @@ public enum EntityType
     Trees,
     Rocks,
     TowerSlot,
-    FactroySlot
+    FactroySlot,
+    Factory,
 
 }

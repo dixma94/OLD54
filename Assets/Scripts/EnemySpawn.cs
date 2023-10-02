@@ -46,6 +46,6 @@ public class EnemySpawn : MonoBehaviour
     {
         EnemyController enemy = Instantiate(EnemyPrefab, transform.position, Quaternion.identity);
         enemy.SetDefaultPointToMove(pointToMove.transform.position);
-        enemy.enemyType = enemyType;
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class Targettable : MonoBehaviour
 {
@@ -74,11 +75,18 @@ public class Targettable : MonoBehaviour
         EntityManager.Instance.UnRegisterEnemy(this);
         OnChangeHint?.Invoke(selector);
         StartCoroutine(Death());
+
+        
+        
     }
 
     private IEnumerator Death()
     {
-        yield return new WaitForSeconds(deathTime);
+        if (targetType != EntityType.Hero && targetType != EntityType.Factory)
+        {
+            yield return new WaitForSeconds(deathTime);
+        }
         Destroy(gameObject);
+       
     }
 }

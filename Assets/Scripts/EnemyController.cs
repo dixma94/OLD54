@@ -111,7 +111,7 @@ public class EnemyController : MonoBehaviour
 
     private Targettable FindPlayer()
     {
-        return EntityManager.Instance.GetHeroInRange(transform.position, AgroRadius);
+        return EntityManager.Instance.GetTargetsInRadius(transform.position, AgroRadius,EntityType.Hero).FirstOrDefault();
 
     }
     private void AttackTarget(Targettable target)

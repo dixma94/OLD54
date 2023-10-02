@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 2522201723438803086}
   - component: {fileID: 1271881616}
   - component: {fileID: 8248125336919300597}
+  - component: {fileID: 7189432210510901264}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -209,6 +210,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 10
   maxHelth: 10
+--- !u!114 &7189432210510901264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522201723438803085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce37dd4fdca4c5b42a6beb6919134d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetType: 2
+  point: {fileID: 0}
+  interactComponent: {fileID: 0}
+  healthComponent: {fileID: 8248125336919300597}
+  agent: {fileID: 0}
+  deathTime: 1
+  radius: 1
 --- !u!1 &9139080413998606204
 GameObject:
   m_ObjectHideFlags: 0

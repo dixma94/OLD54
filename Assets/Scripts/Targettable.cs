@@ -16,6 +16,7 @@ public class Targettable : MonoBehaviour
     public NavMeshAgent agent;
 
     public float deathTime = 1f;
+    public float radius = 1f;
 
     private GameObject selector;
     // Start is called before the first frame update
@@ -35,6 +36,7 @@ public class Targettable : MonoBehaviour
         Selector.SetActive(true);
         Selector.transform.position = point.transform.position;
         Selector.transform.parent = point.transform;
+        Selector.transform.localScale = Vector3.one;
         selector = Selector;
     }
 

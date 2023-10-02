@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AllTargetsSelector: TargetSelector 
 {
-    public override Targettable[] GetTargetsInRange(Vector3 position, float radius)
+    public override List<Targettable> GetTargetsInRange(Vector3 position, float radius)
     {
         return EntityManager.Instance
-         .GetEnemiesInRadius(position, radius);
+         .GetTargetsInRadius(position, radius, EntityType.Enemy);
     }
 }

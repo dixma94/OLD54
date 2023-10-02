@@ -358,7 +358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240570830100714950, guid: 06ce9bd66f10f2c42838fd0f7632cf3f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06ce9bd66f10f2c42838fd0f7632cf3f, type: 3}
@@ -416,6 +416,10 @@ PrefabInstance:
     - target: {fileID: 4608928421481523581, guid: 924da9f4afc18b644a3a83d5a85e953e, type: 3}
       propertyPath: m_Name
       value: tower3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608928421481523581, guid: 924da9f4afc18b644a3a83d5a85e953e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 924da9f4afc18b644a3a83d5a85e953e, type: 3}

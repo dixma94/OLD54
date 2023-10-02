@@ -49,6 +49,7 @@ public class EnemyController : MonoBehaviour
 
         if(health.currentHealth <= 0)
         {
+            agent.speed = 0;
             visuals.Die();
             StopAllCoroutines();
             IsOnColldown = true;
@@ -102,7 +103,7 @@ public class EnemyController : MonoBehaviour
 
     private Targettable FindTower()
     {
-        return EntityManager.Instance.GetTowersInRange(transform.position, AgroRadius)
+        return EntityManager.Instance.GetTargetsInRadius(transform.position, AgroRadius, EntityType.Tower)
             .OrderBy(item => Vector3.Distance(transform.position, item.transform.position))
          .FirstOrDefault(); 
 
@@ -117,10 +118,10 @@ public class EnemyController : MonoBehaviour
     {
         if (attackComponent.CanAttack) 
         {
-            if (Vector3.Distance(transform.position,target.transform.position)<= RangeForAttack)
+            if (Vector3.Distance(transform.position, target.transform.position) <= (RangeForAttack + target.radius))
             {
                 visuals.Attack();
-                attackComponent.Attack(new Targettable[] {target});
+                attackComponent.Attack(new List<Targettable> {target});
             }
         }
     }

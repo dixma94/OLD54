@@ -11,7 +11,7 @@ public class EnemyVisuals : MonoBehaviour
     private int rand = Animator.StringToHash("Rand");
     private int speed = Animator.StringToHash("Speed");
     private int attack = Animator.StringToHash("Attack");
-    private int die = Animator.StringToHash("Death");
+    private int die = Animator.StringToHash("Dead");
 
     public void Attack()
     {
@@ -27,11 +27,16 @@ public class EnemyVisuals : MonoBehaviour
     public float Speed
     {
         get => animator.GetFloat(speed);
-        set => animator.SetFloat(speed, value);
+        set => animator.SetFloat(speed, isDead ? 0 : value);
     }
 
     public void Die()
     {
+        if(isDead)
+        {
+            return;
+        }
+
         isDead = true;
         animator.SetTrigger(die);
     }

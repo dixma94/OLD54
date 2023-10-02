@@ -152,6 +152,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "86aa376c-5952-4ee6-ae21-6730fb43fcd5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "aa13c6a9-e741-4eae-ac45-28a7fe4af7b5",
                     "path": "2DVector",
@@ -221,6 +232,17 @@
                     "name": "",
                     "id": "de7bdb37-835a-4a36-b7fe-73e089b2ac05",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "956aa916-8901-4120-8326-cb0a5cfd7002",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

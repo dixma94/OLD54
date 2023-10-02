@@ -10,15 +10,15 @@ public class TowerController : MonoBehaviour
     [SerializeField] private TargetSelector targetSelector;
     public float AttackCoolDown = 2f;
 
-    const float AttackRadius = 10f;
+    [SerializeField] float AttackRadius = 10f;
     public TowerVisual visual;
 
     private void Update()
     {
         if (attackComponent.CanAttack)
         {
-            Targettable[] targets =  targetSelector.GetTargetsInRange(transform.position, AttackRadius);
-            if (targets.Length > 0 )
+            var targets =  targetSelector.GetTargetsInRange(transform.position, AttackRadius);
+            if (targets.Count > 0 )
             {
                 visual.Attack();
                 attackComponent.Attack(targets);

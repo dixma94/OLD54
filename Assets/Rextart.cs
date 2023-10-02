@@ -9,6 +9,7 @@ public class Rextart : MonoBehaviour
     void Start()
     {
         inputActions = new InputControls();
+        inputActions.Input.Enable();
     }
 
 

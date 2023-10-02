@@ -73,18 +73,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2779929571649173897, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2779929571649173897, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3568122688088905003, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3568122688088905003, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.31
       objectReference: {fileID: 0}
+    - target: {fileID: 6399078105614754691, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399078105614754691, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_Extents.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7542664728641406253, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 8635883142238967222}
+    - target: {fileID: 7939359141064298329, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: maxHelth
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7939359141064298329, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: currentHealth
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7939359141064298330, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: targetSelector
       value: 
@@ -138,6 +162,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7939359141064298335, guid: 670432cf286223244a491a351bce5a54, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7939359141064298335, guid: 670432cf286223244a491a351bce5a54, type: 3}
       propertyPath: m_Name
       value: Tower1
       objectReference: {fileID: 0}
@@ -167,8 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e37ff58944f14d41a406b7fee8ab75b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 1
   attackCooldown: 5
+  projectileSource: {fileID: 0}
   projectilePrefab: {fileID: 4880125087698820674, guid: 64e32564b9495854bbc8fdc6c55f3a70, type: 3}
 --- !u!114 &5329307971873151676
 MonoBehaviour:

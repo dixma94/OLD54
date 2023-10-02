@@ -9,6 +9,7 @@ public class AttackComponent : MonoBehaviour
     [SerializeField] protected float attackCooldown;
     public bool CanAttack { get; protected set; }
 
+    public Transform projectileSource;
     public Projectile projectilePrefab;
 
     private void Start()
@@ -16,7 +17,7 @@ public class AttackComponent : MonoBehaviour
         CanAttack = true;
     }
 
-    public void Attack(Targettable[] enemy)
+    public void Attack(List<Targettable> enemy)
     {
         if (CanAttack)
         {
@@ -24,25 +25,37 @@ public class AttackComponent : MonoBehaviour
         }
     }
 
-    public virtual IEnumerator AttackCoroutine(Targettable[] enemy)
+    public virtual IEnumerator AttackCoroutine(List<Targettable> enemy)
     {
         CanAttack = false;
 
         foreach (var enemyItem in enemy)
         {
-            if (projectilePrefab != null)
-            {
-                var proj = Instantiate<Projectile>(projectilePrefab, transform.position, transform.rotation, null);
-                proj.FlyToTarget(enemyItem.transform, () => { if (enemyItem != null) enemyItem.TakeDamage(damage); });
-            }
-            else
-            {
-                enemyItem.TakeDamage(damage);
-            }
+            FireProjectile(enemyItem, (target) => target.TakeDamage(damage));
         }
         yield return new WaitForSeconds(attackCooldown);
         CanAttack = true;
     }
 
+    public void FireProjectile(Targettable target, System.Action<Targettable> damageEffect)
+    {
+        if (projectilePrefab != null)
+        {
+            var proj = Instantiate(projectilePrefab,
+                projectileSource != null ? projectileSource.position : transform.position,
+                projectileSource != null ? projectileSource.rotation : transform.rotation, null);
+
+            proj.FlyToTarget(target.transform, () => {
+                if (target != null)
+                {
+                    damageEffect.Invoke(target);
+                }
+            });
+        }
+        else
+        {
+            damageEffect.Invoke(target);
+        }
+    }
 
 }

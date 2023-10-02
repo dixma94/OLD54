@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     public Vector3 forceDecrement;
     public float speed;
 
-    private float eps = 0.24f;
+    private float eps = 0.1f;
     private Vector3 externalForce;
 
     private Transform target;
@@ -24,16 +24,28 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator FlyCoroutine()
     {
-        if(target == null)
+        Vector3 targetPosition = Vector3.zero;
+
+        try
+        {
+            targetPosition = target.position;
+        }
+        catch
         {
             Destroy(gameObject);
         }
-        float dist = Vector3.Distance(transform.position, target.transform.position);
-        while (Mathf.Abs(Vector3.Distance(transform.position, target.transform.position)) >= eps)
+
+        float dist = Vector3.Distance(transform.position, targetPosition);
+        while (Mathf.Abs(Vector3.Distance(transform.position, targetPosition)) >= eps)
         {
-            Vector3 dir = (target.transform.position - transform.position).normalized;
+            Vector3 dir = (targetPosition - transform.position).normalized;
+            Debug.DrawRay(transform.position, dir, Color.black);
             Vector3 delta = (externalForce + dir * speed) * Time.deltaTime;
-            transform.Translate(delta);
+            Debug.DrawRay(transform.position, delta, Color.white);
+
+            transform.position += delta;
+            transform.LookAt(target);
+
             externalForce -= forceDecrement * Time.deltaTime;
             if(externalForce.y < 0)
             {

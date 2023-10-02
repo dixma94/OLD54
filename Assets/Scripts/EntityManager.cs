@@ -11,12 +11,7 @@ public class EntityManager : MonoBehaviour
 
     public event Action<Targettable> TargetKilled;
 
-    private List<Targettable> EnemyList = new List<Targettable>();
-    private List<Targettable> TowerList = new List<Targettable>();
-    private List<Targettable> TreesList = new List<Targettable>();
-    private List<Targettable> RocksList = new List<Targettable>();
-    private List<Targettable> TowerSlotList = new List<Targettable>();
-    private List<Targettable> FactorySlotList = new List<Targettable>();
+    private Dictionary<EntityType, List<Targettable>> entries = new Dictionary<EntityType, List<Targettable>>();
 
     private Targettable hero;
     private void Awake()
@@ -27,112 +22,41 @@ public class EntityManager : MonoBehaviour
 
     public void RegisterEnemy(Targettable target)
     {
-        switch (target.targetType)
+        if(!entries.ContainsKey(target.targetType))
         {
-            case EntityType.Enemy:
-                EnemyList.Add(target);
-
-                break;
-            case EntityType.Tower:
-                TowerList.Add(target);
-                break;
-            case EntityType.Hero:
-                hero = target;
-                break;
-            case EntityType.Trees:
-                TreesList.Add(target);
-                break;
-            case EntityType.Rocks:
-                RocksList.Add(target);
-                break;
-            case EntityType.TowerSlot:
-                TowerSlotList.Add(target);
-                break;
-            case EntityType.FactroySlot:
-                FactorySlotList.Add(target);
-                break;
-            default:
-                break;
+            entries.Add(target.targetType, new List<Targettable>());
         }
 
+        entries[target.targetType].Add(target);
     }
     public void UnRegisterEnemy(Targettable target)
     {
         TargetKilled?.Invoke(target);
 
-        switch (target.targetType)
+        if (!entries.ContainsKey(target.targetType))
         {
-            case EntityType.Enemy:
-                EnemyList.Remove(target);
-                break;
-            case EntityType.Tower:
-                TowerList.Remove(target);
-                break;
-            case EntityType.Hero:
-                hero = null;
-                break;
-            case EntityType.Trees:
-                TreesList.Remove(target);
-                break;
-            case EntityType.Rocks:
-                RocksList.Remove(target);
-                break;
-            case EntityType.TowerSlot:
-                TowerSlotList.Remove(target);
-                break;
-            case EntityType.FactroySlot:
-                FactorySlotList.Remove(target);
-                break;
-            default:
-                break;
+            entries.Add(target.targetType, new List<Targettable>());
         }
+        entries[target.targetType].Remove(target);
     }
 
-    public Targettable[] GetTargetsysInRadius(Vector3 center, float radius)
+    public List<Targettable> GetTargetsInRadius(Vector3 center, float radius, EntityType type)
     {
         List<Targettable> targettablesInRadius = new List<Targettable>();
-        List<Targettable> targettables = new List<Targettable>();
-        targettables.AddRange(TowerList);
-        targettables.AddRange(EnemyList);
-        targettables.AddRange(TreesList);
-        targettables.AddRange(RocksList);
-        targettables.AddRange(TowerSlotList);
-        targettables.AddRange(FactorySlotList);
-        foreach (Targettable enemy in targettables)
+
+        if(entries.ContainsKey(type))
         {
-            if (Vector3.Distance(enemy.transform.position, center) <= radius)
+            foreach (Targettable entry in entries[type])
             {
-                targettablesInRadius.Add(enemy);
+                if (Vector3.Distance(entry.transform.position, center) <= radius)
+                {
+                    targettablesInRadius.Add(entry);
+                }
             }
         }
-        return targettablesInRadius.ToArray();
+        return targettablesInRadius;
     }
 
-    public Targettable[] GetEnemiesInRadius(Vector3 center, float radius)
-    {
-        List<Targettable> targettablesInRadius = new List<Targettable>();
-        foreach (Targettable enemy in EnemyList)
-        {
-            if (Vector3.Distance(enemy.transform.position, center) <= radius)
-            {
-                targettablesInRadius.Add(enemy);
-            }
-        }
-        return targettablesInRadius.ToArray();
-    }
-
-    public Targettable[] GetTowersInRange(Vector3 center, float radius)
-    {
-        List<Targettable> targettablesInRadius = new List<Targettable>();
-        foreach (Targettable enemy in TowerList)
-        {
-            if (Vector3.Distance(enemy.transform.position, center) <= radius)
-            {
-                targettablesInRadius.Add(enemy);
-            }
-        }
-        return targettablesInRadius.ToArray();
-    }
     public Targettable GetHeroInRange(Vector3 center, float radius)
     {
         if (hero == null)

@@ -83,7 +83,8 @@ MonoBehaviour:
   interactComponent: {fileID: 0}
   healthComponent: {fileID: 6541986263702508143}
   agent: {fileID: 0}
-  deathTime: 1
+  deathTime: 0.01
+  radius: 1
 --- !u!114 &6541986263702508143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ec8c0313e2ccb4aa08ef4bc64c7cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 20
-  maxHelth: 20
+  currentHealth: 5
+  maxHelth: 5
 --- !u!1001 &8411222105151756018
 PrefabInstance:
   m_ObjectHideFlags: 0

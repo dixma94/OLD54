@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class TargetSelector : MonoBehaviour
 {
-    public virtual Targettable[] GetTargetsInRange(Vector3 position, float radius)
+    public virtual List<Targettable> GetTargetsInRange(Vector3 position, float radius)
     {
-        return EntityManager.Instance.GetEnemiesInRadius(position, radius);
+        return EntityManager.Instance.GetTargetsInRadius(position, radius, EntityType.Enemy);
     }
 }

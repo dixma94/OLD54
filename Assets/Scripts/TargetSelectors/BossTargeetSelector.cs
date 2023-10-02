@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BossTargeetSelector : TargetSelector
 {
-    public override Targettable[] GetTargetsInRange(Vector3 position, float radius)
+    public override List<Targettable> GetTargetsInRange(Vector3 position, float radius)
     {
 
         return EntityManager.Instance
-          .GetEnemiesInRadius(position, radius)
-          .OrderBy(item => item.healthComponent.maxHelth).ToArray();
+          .GetTargetsInRadius(position, radius, EntityType.Enemy)
+          .OrderBy(item => item.healthComponent.maxHelth).ToList();
 
     }
 }

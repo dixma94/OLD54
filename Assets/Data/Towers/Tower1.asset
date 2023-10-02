@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tower1
   m_EditorClassIdentifier: 
   id: 1
-  woodCost: 1
-  rockCost: 1
+  woodCost: 0
+  rockCost: 4
   prefab: {fileID: 1869968813482529899, guid: 1f5a2696501a9fe42bb986c886cede0d, type: 3}
